@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu Trabajo Ya - Portal de Empleo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f4f6f9; }
+    h1 { color: #1a73e8; }
+    .card { background: white; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .btn { background: #1a73e8; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    .btn:hover { background: #1557b0; }
+  </style>
+</head>
+<body>
+
+  <h1>Plataforma Tu Trabajo Ya</h1>
+
+  <div class="card">
+    <h2>Vacantes Disponibles</h2>
+    <button class="btn" onclick="cargarVacantes()">Cargar Empleos</button>
+    <div id="lista-jobs" style="margin-top: 15px;"></div>
+  </div>
+
+  <script>
+    async function cargarVacantes() {
+      const res = await fetch('/api/jobs');
+      const jobs = await res.json();
+      const contenedor = document.getElementById('lista-jobs');
+      contenedor.innerHTML = '';
+
+      if (!jobs || jobs.length === 0) {
+        contenedor.innerHTML = '<p>No hay vacantes disponibles en este momento.</p>';
+        return;
+      }
+
+      jobs.forEach(j => {
+        contenedor.innerHTML += `
+          <div style="border-bottom: 1px solid #ccc; padding: 8px 0;">
+            <h3>${j.title || 'Sin título'}</h3>
+            <p>${j.description || ''}</p>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>

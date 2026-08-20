@@ -5,13 +5,15 @@ const PORT = process.env.PORT || 3000;
 // Middleware para JSON
 app.use(express.json());
 
-// Importar rutas
+// 1. Importar rutas primero
 const authRoutes = require('./routes/authRoutes');
-const jobRoutes = require('./routes/jobroutes'); // Cambiado a 'jobroutes'
+const jobRoutes = require('./routes/jobroutes');
+const applicationRoutes = require('./routes/applicationRoutes');
 
-// Usar rutas
+// 2. Usar rutas después
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/applications', applicationRoutes);
 
 // Ruta base
 app.get('/', (req, res) => {
